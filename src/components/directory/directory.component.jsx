@@ -10,6 +10,7 @@ const DEFAULT_SECTIONS = [
     title: "HATS",
     subtitle: "SHOP NOW",
     imageUrl: "https://i.ibb.co/cvpntL1/hats.png",
+    linkUrl: 'hats',
   },
 
   {
@@ -17,6 +18,7 @@ const DEFAULT_SECTIONS = [
     title: "JACKETS",
     subtitle: "SHOP NOW",
     imageUrl: "https://i.ibb.co/cvpntL1/hats.png",
+    linkUrl: 'jackets',
   },
 
   {
@@ -24,6 +26,7 @@ const DEFAULT_SECTIONS = [
     title: "SNEAKERS",
     subtitle: "SHOP NOW",
     imageUrl: "https://i.ibb.co/cvpntL1/hats.png",
+    linkUrl: 'sneakers',
   },
 
   {
@@ -31,6 +34,7 @@ const DEFAULT_SECTIONS = [
     title: "WOMENS",
     subtitle: "SHOP NOW",
     imageUrl: "https://i.ibb.co/cvpntL1/hats.png",
+    linkUrl: 'womens',
     size: 'large'
   },
 
@@ -39,6 +43,7 @@ const DEFAULT_SECTIONS = [
     title: "MENS",
     subtitle: "SHOP NOW",
     imageUrl: "https://i.ibb.co/cvpntL1/hats.png",
+    linkUrl: 'mens',
     size: 'large'
   },
 ];
@@ -47,8 +52,8 @@ const Directory = () => {
 
   return (
     <div className="directory-menu">
-      {sections.map(({ id, title, subtitle, imageUrl, size }) => (
-        <MenuItem key={id} title={title} subtitle={subtitle} imageUrl={imageUrl} size={size} />
+      {sections.map(({ id, ...otherProps }) => (
+        <MenuItem key={id} {...otherProps} />
       ))}
     </div>
   );
