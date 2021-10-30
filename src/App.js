@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Switch, Route } from "react-router-dom";
 import "./App.css";
 
-import { auth } from "./configs/firebase/firebase.utils";
+import { auth, createUserProfile } from "./configs/firebase/firebase.utils";
 
 import Header from "./components/header/header.component";
 import HomePage from "./pages/homepage/homepage.component";
@@ -10,19 +10,20 @@ import ShopPage from "./pages/shop/shop.component";
 import AuthPage from "./pages/authentication/authentication.component";
 
 function App() {
-  const [currentUser, setCurrentUser] = useState("");
+  const [currentUser, setCurrentUser] = useState(null);
 
-  auth.onAuthStateChanged((userDetails) => {
-    if (!userDetails) {
-      setCurrentUser(null);
-      return;
+  auth.onAuthStateChanged(async (userAuth) => {
+    if (userAuth) {
+      const userRef = await createUserProfile(userAuth);
+
+      userRef.onSnapshot((snapshot) => {
+        setCurrentUser({
+          id: snapshot.id,
+          ...snapshot.data(),
+        });
+      });
     }
-
-    const {
-      multiFactor: { user },
-    } = userDetails;
-
-    setCurrentUser(user);
+    setCurrentUser(userAuth);
   });
 
   return (
