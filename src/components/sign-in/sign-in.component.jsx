@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { signInWithGoogle } from "../../configs/firebase/firebase.utils";
+import { auth, signInWithGoogle } from "../../configs/firebase/firebase.utils";
 import Input from "../../components/input/input.component";
 import Button from "../../components/button/button.component";
 
@@ -10,10 +10,17 @@ const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    setEmail("");
-    setPassword("");
+
+    try {
+      await auth.signInWithEmailAndPassword(email, password);
+      setEmail("");
+      setPassword("");
+    } catch (err) {
+      alert(`Unable to sign in to your account`);
+      console.error("Error logging in ", err);
+    }
   };
 
   const handleChange = (event) => {
